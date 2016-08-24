@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: sDwNpXnmkORXtmbJ5dnUoBumipwlgYCJzeqGwXqwE4RDXGMv4tjnaxtJkDKiB6CBMfWOuljFqj5lVRze/NO+zgtLOsqpZtgtYSoj5S7jyXgBeXVrxPKI0ZiVVZUpSxtOuQP9S3pT/hHL0ODNUGOGp4WugC2Mh5ydbH/j26tAOuOONA/BEJdFNOMbib73v5Sn63Htzg19YBPmBJLi67gBuzbbz66I9wcL8USv2cDlzfOq3fRd1HGWZRiJbSbSz5T6b7beWKX5D2vOBehtXwi7kbSy/JJaYXJn77QACGWP8wLKRNaSY066Keqlywnmg0Zcfhza1m2wDtOuMiq2NsgxMIgwB8G13aDVGTtpAPZlxuuO5tNan0qrPtkwVcQZLyp+PVBre5mLVjfiYfw05v8FeyflQczYRZedtuHBTcZS1Oh+M4g5Wge/Zi+A+VZQUT6Rak/5/GRkLJmR8drxI44e7G0YRjNQ5We7ZD0o/zUAili40avGqeDKiFTFklxapAqZX8XqOwU7ngyjV5SYGOrnV5ANRoE3cQAgEgQCzhStEGnV4JlzPQq6OHBn582XqhPP7jBMNWdBhYAMmgur05DoP/VWK/UsYA0yqIsJrQ/00Jek9d7SRig9Et1xtOcyNt5BmeUeE24cZ2SmwKjqnjCWUvZzFFUiYvYCuTpgtjt9eMw=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/The-Disappearance-of-Lady-Frances-Carfax_2348
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
