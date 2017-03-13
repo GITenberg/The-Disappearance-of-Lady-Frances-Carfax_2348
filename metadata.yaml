@@ -1,5 +1,8 @@
 _repo: The-Disappearance-of-Lady-Frances-Carfax_2348
-_version: 0.1.0
+_version: 0.2.0
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Doyle, Arthur Conan
@@ -17,6 +20,8 @@ description: "\"The Disappearance of Lady Frances Carfax\" is one of the 56 Sher
   \ of the eight stories in the cycle collected as His Last Bow, and one of the few\
   \ stories in which for much of the plot Watson must act alone and try his best with\
   \ Holmes left in the background.\n\n\n From Wikipedia (CC BY-SA)."
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/2348#The-Disappearance-of-Lady-Frances-Carfax
 gutenberg_bookshelf: Detective Fiction
 gutenberg_issued: '2000-10-01'
 gutenberg_type: Text
